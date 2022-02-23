@@ -103,7 +103,7 @@ def plot_data(data: List[float],
     for i in range(len(mse)):
         tries.append(i)
 
-    plt.subplot(1, 2, 1)
+    plt.subplot(1, 2, 1)  # the figure has 1 row, 2 columns, and this plot is the first plot.
     plt.title('Login Attempts')
     plt.xlabel('Time')
     plt.ylabel('No. of Attempts')
@@ -114,7 +114,7 @@ def plot_data(data: List[float],
     plt.plot(times, model, '--r', label='Model')
     plt.legend(loc=2)
 
-    plt.subplot(1, 2, 2)
+    plt.subplot(1, 2, 2)  # the figure has 1 row, 2 columns, and this plot is the second plot.
     plt.title('Model Tuning')
     plt.xlabel('Iterations')
     plt.ylabel('MSE')
