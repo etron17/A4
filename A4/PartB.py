@@ -117,7 +117,7 @@ def plot_data(data: List[float],
     plt.xlabel('Time')
     plt.ylabel('No. of Attempts')
     plt.xlim([-0.5, 6.5])
-    plt.ylim([min(min(data), min(model)), max(max(data), max(model))])
+    plt.ylim([min(min(data), min(data) - 1), max(max(data), max(data) + 0.5)])
 
     plt.plot(times, data, 'bo', label='Data')
     plt.plot(times, model, '--r', label='Model')
