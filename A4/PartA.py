@@ -74,7 +74,7 @@ def setParameter(data: List[float]) -> Tuple[List[float], float, float, float]:
     print("The value of A is:", A / 100)
     print("The value of B is:", B / 100)
     print("The value of mu is:", mu / 100)
-    print("The MSE predicted by our model is:", mse[-1])
+    print("The MSE predicted by our model is:", round(mse[-1], 2))
     return mse, A / 100, B / 100, mu / 100
 
 
