@@ -52,29 +52,30 @@ def getFit(data: List[float], A: float, B: float, C: float, mu: float) -> float:
 def setParameter(data: List[float]) -> \
         Tuple[List[float], float, float, float, float]:
     """
-    Find A, B and mu that gives MSE less than 1
+    Find A, B, C, and mu that gives MSE less than 0.5
     :param data: Data to check MSE on
-    :return: Tuple with List of MSE on the way to find MSE < 1 and A. B, C and mu
+    :return: Tuple with List of MSE on the way to find MSE < 0.5 and A. B, C and mu
     """
     mse: List[float] = []
-    step = 10
+    step = 5
     A = 0
     B = 0
     C = 10
     mu = 0
     found = False
-    for A in range(0, 201, step):
+    for mu in range(0, 201, step):
         if found:
             break
-        for B in range(0, 201, step):
+        for A in range(0, 201, step):
             if found:
                 break
-            for C in range(10, 201, step):
+            for B in range(0, 201, step):
                 if found:
                     break
-                for mu in range(0, 201, step):
+                for C in range(10, 201, step):
                     an_mse = getFit(data, A / 100, B / 100, C / 100, mu / 100)
-                    mse.append(an_mse)
+                    if len(mse) == 0 or mse[-1] > an_mse:
+                        mse.append(an_mse)
                     if an_mse < 0.5:
                         found = True
                         break  # Found A, B and mu
@@ -127,8 +128,8 @@ def plot_data(data: List[float],
     plt.title('Model Tuning')
     plt.xlabel('Iterations')
     plt.ylabel('MSE')
-    plt.xlim([0, len(mse)])
-    plt.ylim([0, max(mse)])
+    plt.xlim([-1, len(mse) + 1])
+    plt.ylim([-1, max(mse) + 1])
     plt.plot(tries, mse, '-b')
 
     plt.show()

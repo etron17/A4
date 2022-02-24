@@ -20,7 +20,7 @@ def getInputs(filename: str) -> List[float]:
     return res
 
 
-def s_t(t: float, A: float, B: float, mu: float) -> float:
+def evaluateModel(t: float, A: float, B: float, mu: float) -> float:
     """
     Calculate an equation
     :param t: time
@@ -29,7 +29,7 @@ def s_t(t: float, A: float, B: float, mu: float) -> float:
     :param mu: mu constant
     :return: Value of equation
     """
-    value = 2 * math.pi * t / 120
+    value = (2 * math.pi * t) / 120
     return -1 * (A * math.sin(value) + mu) * (math.e ** (B * value))
 
 
@@ -44,7 +44,7 @@ def getFit(data: List[float], A: float, B: float, mu: float) -> float:
     """
     mse = 0
     for i in range(len(data)):
-        mse += (s_t(i + 1, A, B, mu) - data[i]) ** 2
+        mse += (evaluateModel(i + 1, A, B, mu) - data[i]) ** 2
     return mse / len(data)
 
 
@@ -55,20 +55,22 @@ def setParameter(data: List[float]) -> Tuple[List[float], float, float, float]:
     :return: Tuple with List of MSE on the way to find MSE < 1 and A. B and mu
     """
     mse: List[float] = []
-    step = 10
+    step = 5
     A = 0
     B = 0
     mu = 0
     found = False
-    for A in range(0, 201, step):
+
+    for mu in range(0, 201, step):
         if found:
             break
-        for B in range(0, 201, step):
+        for A in range(0, 201, step):
             if found:
                 break
-            for mu in range(0, 201, step):
+            for B in range(0, 201, step):
                 an_mse = getFit(data, A / 100, B / 100, mu / 100)
-                mse.append(an_mse)
+                if len(mse) == 0 or mse[-1] > an_mse:
+                    mse.append(an_mse)
                 if an_mse < 1:
                     found = True
                     break  # Found A, B and mu
@@ -76,6 +78,7 @@ def setParameter(data: List[float]) -> Tuple[List[float], float, float, float]:
     print("The value of B is:", B / 100)
     print("The value of mu is:", mu / 100)
     print("The MSE predicted by our model is:", round(mse[-1], 3))
+    print("Number of iterations: ", len(mse))
     return mse, A / 100, B / 100, mu / 100
 
 
@@ -94,7 +97,7 @@ def plot_data(data: List[float],
 
     model = []
     for i in range(120):
-        model.append(s_t(i + 1, A, B, mu))
+        model.append(evaluateModel(i + 1, A, B, mu))
 
     times = []
     for i in range(120):
@@ -109,7 +112,7 @@ def plot_data(data: List[float],
     plt.xlabel('Time')
     plt.ylabel('No. of Attempts')
     plt.xlim([-0.5, 6.5])
-    plt.ylim([min(min(data), min(data)-1), max(max(data), max(model) + 1)])
+    plt.ylim([min(min(data), min(data)-1), max(max(data), max(model) + 2)])
 
     plt.plot(times, data, 'bo', label='Data')
     plt.plot(times, model, '--r', label='Model')
@@ -119,8 +122,8 @@ def plot_data(data: List[float],
     plt.title('Model Tuning')
     plt.xlabel('Iterations')
     plt.ylabel('MSE')
-    plt.xlim([0, len(mse)])
-    plt.ylim([0, max(mse)])
+    plt.xlim([-1, len(mse) + 1])
+    plt.ylim([-1, max(mse) + 1])
     plt.plot(tries, mse, '-b')
 
     plt.show()
