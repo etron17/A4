@@ -7,7 +7,6 @@
 import math
 from typing import List, Tuple
 import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
 
 DATA_FILENAME = "A04_sfwr_data_03.txt"
 
