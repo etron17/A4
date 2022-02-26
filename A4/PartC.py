@@ -95,6 +95,7 @@ def setParameter(data: List[float]) -> Tuple[
     print("The value of mu is:", mu / 100)
     print("The value of shift is:", shift / 100)
     print("The MSE predicted by our model is:", round(mse[-1], 3))
+    print("Number of iterations: ", len(mse))
     return mse, A / 100, B / 100, C / 100, mu / 100, shift / 100
 
 
