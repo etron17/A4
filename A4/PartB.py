@@ -29,7 +29,7 @@ def s_t(t: float, A: float, B: float, C: float, mu: float) -> float:
     :param mu: mu constant
     :return: Value of equation
     """
-    value = 2 * math.pi * t / 120
+    value = (2 * math.pi * t) / 120
     return -1 * (A * math.sin(value) + mu) * (math.e ** (B * value / C))
 
 
@@ -63,16 +63,16 @@ def setParameter(data: List[float]) -> \
     C = 10
     mu = 0
     found = False
-    for mu in range(0, 201, step):
+    for A in range(0, 201, step):
         if found:
             break
-        for A in range(0, 201, step):
+        for B in range(0, 201, step):
             if found:
                 break
-            for B in range(0, 201, step):
+            for C in range(10, 201, step):
                 if found:
                     break
-                for C in range(10, 201, step):
+                for mu in range(0, 201, step):
                     an_mse = getFit(data, A / 100, B / 100, C / 100, mu / 100)
                     if len(mse) == 0 or mse[-1] > an_mse:
                         mse.append(an_mse)

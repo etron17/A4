@@ -31,7 +31,7 @@ def s_t(t: float, A: float, B: float, C: float, mu: float,
     :param shift: shift constant
     :return: Value of equation
     """
-    value = 2 * math.pi * t / 120 + shift
+    value = ((2 * math.pi * t) / 120) + shift
     return -1 * (A * math.sin(value) + mu) * (math.e ** (B * value / C))
 
 
