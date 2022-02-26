@@ -24,8 +24,8 @@ def getInputs(filename: str) -> List[float]:
     return res
 
 
-def s_t(t: float, A: float, B: float, C: float, mu: float,
-        shift: float) -> float:
+def evaluateModel(t: float, A: float, B: float, C: float, mu: float,
+                  shift: float) -> float:
     """
     Calculate an equation
     :param t: time
@@ -54,7 +54,7 @@ def getFit(data: List[float], A: float, B: float, C: float, mu: float,
     """
     mse = 0
     for i in range(len(data)):
-        mse += (s_t(i + 1, A, B, C, mu, shift) - data[i]) ** 2
+        mse += (evaluateModel(i + 1, A, B, C, mu, shift) - data[i]) ** 2
     return mse / len(data)
 
 
@@ -122,7 +122,7 @@ def plot_data(data: List[float],
 
     model = []
     for i in range(120):
-        model.append(s_t(i + 1, A, B, C, mu, shift))
+        model.append(evaluateModel(i + 1, A, B, C, mu, shift))
 
     times = []
     for i in range(120):
