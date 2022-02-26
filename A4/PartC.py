@@ -1,3 +1,9 @@
+# Student name: Dojae Kim
+# Student number: 400420323
+# Student email: kim408@mcmaster.ca
+# Lecture: SFWRTECH 3PR3
+# Assignment 4 Part C
+
 import math
 from typing import List, Tuple
 import matplotlib.pyplot as plt
